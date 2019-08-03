@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>L&#39; blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-07-29T19:31:40.885Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>l@0-f.org</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>android安全 —— 修改APP代码,反编译修改smail文件</title>
+    <link href="http://yoursite.com/2018/10/31/android%E5%AE%89%E5%85%A8/"/>
+    <id>http://yoursite.com/2018/10/31/android安全/</id>
+    <published>2018-10-30T19:07:22.000Z</published>
+    <updated>2019-07-29T19:31:40.885Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在测试的APP时候,时常遇到通信流量使用AES加密，而加密的KEY每次是随机生成,并使用RSA加密KEY附在数据包之中。</p><p>给测试带来诸多不便,如果可以将每次的KEY固定住就可以很方便进行流量解密工作</p><h2 id="准备前的工作"><a href="#准备前的工作" class="headerlink" title="准备前的工作"></a>准备前的工作</h2><p>俗话说”工欲善其事，必先利其器”，我们准备以下几款工具:</p><table><thead><tr><th>工具名</th><th>作用</th></tr></thead><tbody><tr><td>JEB/JADX/JD-GUI</td><td>图形化反编译APK 或者 JAR文件</td></tr><tr><td>apktool.jar</td><td>反编译smail文件,打包成APK文件</td></tr><tr><td>signer.jar.</td><td>对打包出来的APK文件进行签名</td></tr></tbody></table><h2 id="Android-文件结构"><a href="#Android-文件结构" class="headerlink" title="Android 文件结构"></a>Android 文件结构</h2><p>我们知道andorid 程序是一个后缀为APK的文件，其实这个APK文件是一个压缩包，压缩包内是一些数据与资源文件,解压一个APK文件可以看到以下结构:</p><table><thead><tr><th>文件夹/文件名</th><th>作用</th></tr></thead><tbody><tr><td>META-INF</td><td>存放应用签名和证书的目录</td></tr><tr><td>res</td><td>存放应用程序的资源</td></tr><tr><td>lib</td><td>程序依赖的native库文件</td></tr><tr><td>assets</td><td>打包的静态文件</td></tr><tr><td>AndroidManifest.xml</td><td>应用程序的配置文件</td></tr><tr><td>classes.dex</td><td>dex可执行文件</td></tr><tr><td>resources.arsc</td><td>资源配置文件</td></tr></tbody></table><h2 id="什么是Smali文件"><a href="#什么是Smali文件" class="headerlink" title="什么是Smali文件"></a>什么是Smali文件</h2><p>classes.dex是java源码编译后生成的Dalvik字节码文件，而Smali文件是由Baksmali工具反编译Dalvik字节码得来的，由于该工具支持smali-&gt;dex 文件的编译，所以现在大多使用该smali语法进行编译/反编译。通过反编译Smali文件可以还原java代码。</p><p>Dalvik有自己的语法,可以在下列网站中学习到:</p><p><a href="https://www.jianshu.com/p/2dcfbeab3efc" target="_blank" rel="noopener">https://www.jianshu.com/p/2dcfbeab3efc</a></p><h2 id="使用apktool反编译APK文件"><a href="#使用apktool反编译APK文件" class="headerlink" title="使用apktool反编译APK文件"></a>使用apktool反编译APK文件</h2><blockquote><p>这是我自己写的一个模拟程序:</p></blockquote><img width="300" src="/images/15411449020625.jpg"><p>对应的代码:<br><img src="/images/15411450493220.jpg" alt></p><p>我们使用jadx先反编译这个APK文件:</p><p><img src="/images/15411455537721.jpg" alt></p><p><img src="/images/15411455629499.jpg" alt></p><p>可以看到先判断User类里面的key是否为空,如果不为空的话就随机生成KEY.</p><p>接下来我们使用apktool来反编译出smali文件进行修改:</p><p><code>apktool d app-debug.apk</code></p><p>在目录中寻找到我们要修改的<code>User.smali</code>文件</p><p>可以看到这里是key的变量赋值的地方，我们直接修改保存:</p><p><img src="/images/15411457463572.jpg" alt></p><h2 id="打包文件夹为apk文件"><a href="#打包文件夹为apk文件" class="headerlink" title="打包文件夹为apk文件"></a>打包文件夹为apk文件</h2><p>在apk目录外执行:<br><code>apktool b app-debug</code></p><p>将会重新打包成apk文件，而生成的apk文件在./app-debug/dist/app-debug.apk<br>现在直接是不能运行的，需要对apk文件进行签名才能正常的被安装</p><h2 id="重新签名apk文件"><a href="#重新签名apk文件" class="headerlink" title="重新签名apk文件"></a>重新签名apk文件</h2><p><code>&gt; $ apksigner app-debug.apk</code><br><code>app-debug_signed.apk (1563612 Bytes) √</code></p><h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><blockquote><p>$ adb install app-debug_signed.apk<br>Success</p></blockquote><img width="300" src="/images/15411461909684.jpg">]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在测试的APP时候,时常遇到通信流量使用AES加密，而加密的KEY每次是随机生成,并使用RSA加密KEY附在数据包之中。&lt;/p&gt;
+&lt;p&gt;给测
+      
+    
+    </summary>
+    
+    
+      <category term="android安全" scheme="http://yoursite.com/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+</feed>
