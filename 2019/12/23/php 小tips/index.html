@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="php安全 —— [tips] 跨目录复制文件">
+
+
+
+
+  <meta name="keywords" content="php安全,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1">
+
+
+
+<link rel="canonical" href="http://yoursite.com/2019/12/23/php 小tips/">
+
+
+<meta name="description" content="前言在我的经验中一直以为使用文件操作相关函数时，windows可以使用 /aa/../,来跳过一个不存在的上级目录,而linux系统不能跳出一个原本不存在的目录。 而最近我在一次渗透测试的代码审计中，发现php中使用copy函数时，不管是 win/linux 都可以跳出一个原本不存在的上级目录">
+<meta name="keywords" content="php安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php安全 —— [tips] 跨目录复制文件">
+<meta property="og:url" content="http://yoursite.com/2019/12/23/php 小tips/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="前言在我的经验中一直以为使用文件操作相关函数时，windows可以使用 /aa/../,来跳过一个不存在的上级目录,而linux系统不能跳出一个原本不存在的目录。 而最近我在一次渗透测试的代码审计中，发现php中使用copy函数时，不管是 win/linux 都可以跳出一个原本不存在的上级目录">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-22T18:07:25.684Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php安全 —— [tips] 跨目录复制文件">
+<meta name="twitter:description" content="前言在我的经验中一直以为使用文件操作相关函数时，windows可以使用 /aa/../,来跳过一个不存在的上级目录,而linux系统不能跳出一个原本不存在的目录。 而最近我在一次渗透测试的代码审计中，发现php中使用copy函数时，不管是 win/linux 都可以跳出一个原本不存在的上级目录">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> php安全 —— [tips] 跨目录复制文件 - blog </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">blog</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/index">
+                            
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          php安全 —— [tips] 跨目录复制文件
+        
+      </h1>
+
+      <time class="post-time">
+          Dec 23 2019
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在我的经验中一直以为使用文件操作相关函数时，windows可以使用 <code>/aa/../</code>,来跳过一个不存在的上级目录,而linux系统不能跳出一个原本不存在的目录。</p>
+<p>而最近我在一次渗透测试的代码审计中，发现php中使用copy函数时，不管是 <code>win/linux</code> 都可以跳出一个原本不存在的上级目录</p>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/php安全/">php安全</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2018/10/31/android安全/">
+        <span class="next-text nav-default">android安全 —— 修改APP代码,反编译修改smail文件</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">l@0-f.org.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
